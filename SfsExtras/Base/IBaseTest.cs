@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenQA.Selenium.Remote;
+
+namespace SfsExtras.Base
+{
+    public interface IBaseTest
+    {
+        RemoteWebDriver Driver { get; set; }
+
+        RemoteWebDriver CreateBrowserDriver();
+    }
+}

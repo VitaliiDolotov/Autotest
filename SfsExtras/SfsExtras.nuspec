@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>VitaliiD</authors>
+    <owners>VitaliiD</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Beta version of the package.</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>SpecFlow WebDriver</tags>
+	<license type="expression">AFL-3.0</license>
+  </metadata>
+</package>
