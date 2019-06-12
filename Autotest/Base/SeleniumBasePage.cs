@@ -35,9 +35,17 @@ namespace SfsExtras.Base
                 .ToList();
         }
 
-        public By SelectorFor<TPage, TProperty>(TPage page, Expression<Func<TPage, TProperty>> expression)
+        //TODO probably should be replaced by 'GetByFor' method
+        protected By SelectorFor<TPage, TProperty>(TPage page, Expression<Func<TPage, TProperty>> expression)
         {
             var attribute = Extensions.ReflectionExtensions.ResolveMember(page, expression).GetFirstDecoration<FindsByAttribute>();
+            return Utils.ByFactory.From(attribute);
+        }
+
+        //Usage By selector = page.GetByFor(() => page.LoginButton);
+        public By GetByFor<TProperty>(Expression<Func<TProperty>> expression)
+        {
+            var attribute = Extensions.ReflectionExtensions.ResolveMember(expression).GetFirstDecoration<FindsByAttribute>();
             return Utils.ByFactory.From(attribute);
         }
     }

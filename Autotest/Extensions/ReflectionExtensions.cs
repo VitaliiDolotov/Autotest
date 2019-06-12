@@ -16,7 +16,18 @@ namespace SfsExtras.Extensions
             return (T)attributes.FirstOrDefault();
         }
 
+        //TODO should be removed with method that is using it
         public static MemberInfo ResolveMember<TModel, TProperty>(TModel model, Expression<Func<TModel, TProperty>> expression)
+        {
+            if (!(expression.Body is MemberExpression))
+                throw new ArgumentException(
+                    "Expression passed to this method should be of type MemberExpression, for example: c => c.Property");
+
+            var memberExpression = (MemberExpression)expression.Body;
+            return memberExpression.Member;
+        }
+
+        public static MemberInfo ResolveMember<TProperty>(Expression<Func<TProperty>> expression)
         {
             if (!(expression.Body is MemberExpression))
                 throw new ArgumentException(
