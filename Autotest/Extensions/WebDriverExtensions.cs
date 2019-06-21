@@ -169,6 +169,11 @@ namespace SfsExtras.Extensions
             }
         }
 
+        public static void WaitForDataLoading(this RemoteWebDriver driver)
+        {
+            throw new NotImplementedException();
+        }
+
         #region Locate element
 
         public static IList<IWebElement> LocateElements(this RemoteWebDriver driver, By selector)
@@ -506,6 +511,125 @@ namespace SfsExtras.Extensions
             {
                 try
                 {
+                    return element.Displayed().Equals(displayedCondition);
+                }
+                catch (NoSuchElementException)
+                {
+                    // Returns false because the element is not present in DOM.
+                    return false.Equals(displayedCondition);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    // Returns false because stale element reference implies that element
+                    // is no longer visible.
+                    return false.Equals(displayedCondition);
+                }
+                catch (InvalidOperationException)
+                {
+                    // Return false as no elements was located
+                    return false.Equals(displayedCondition);
+                }
+            };
+        }
+
+        #endregion
+
+        #region Wait for Element to be (not) Displayed After Refresh
+
+        public static void WaitForElementToBeNotDisplayedAfterRefresh(this RemoteWebDriver driver, IWebElement element, bool waitForDataLoading = false, int waitSeconds = WaitTimeoutSeconds)
+        {
+            WaitForElementDisplayConditionAfterRefresh(driver, element, false, waitSeconds, waitForDataLoading);
+        }
+
+        public static void WaitForElementToBeDisplayedAfterRefresh(this RemoteWebDriver driver, IWebElement element, bool waitForDataLoading = false, int waitSeconds = WaitTimeoutSeconds)
+        {
+            WaitForElementDisplayConditionAfterRefresh(driver, element, true, waitSeconds, waitForDataLoading);
+        }
+
+        public static void WaitForElementToBeDisplayedAfterRefresh(this RemoteWebDriver driver, By locator, bool waitForDataLoading = false, int waitSeconds = WaitTimeoutSeconds)
+        {
+            WaitForElementDisplayConditionAfterRefresh(driver, locator, true, waitSeconds, waitForDataLoading);
+        }
+
+        public static void WaitForElementToBeNotDisplayedAfterRefresh(this RemoteWebDriver driver, By locator, bool waitForDataLoading = false, int waitSeconds = WaitTimeoutSeconds)
+        {
+            WaitForElementDisplayConditionAfterRefresh(driver, locator, false, waitSeconds, waitForDataLoading);
+        }
+
+        private static void WaitForElementDisplayConditionAfterRefresh(this RemoteWebDriver driver, By by, bool condition, int waitSeconds, bool waitForDataLoading)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(waitSeconds));
+                wait.Until(ElementIsInDisplayedConditionAfterRefresh(by, condition, waitForDataLoading));
+            }
+            catch (WebDriverTimeoutException e)
+            {
+                throw new Exception($"Element with '{by}' selector was not changed Display condition to '{condition}' after {waitSeconds} seconds", e);
+            }
+        }
+
+        private static void WaitForElementDisplayConditionAfterRefresh(this RemoteWebDriver driver, IWebElement element, bool condition, int waitSeconds, bool waitForDataLoading)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(waitSeconds));
+                wait.Until(ElementIsInDisplayedConditionAfterRefresh(element, condition, waitForDataLoading));
+            }
+            catch (WebDriverTimeoutException e)
+            {
+                throw new Exception($"Element was not changed Display condition to '{condition}' after {waitSeconds} seconds", e);
+            }
+        }
+
+        //Return true if find at least one element by provided selector with Displayed condition true
+        private static Func<IWebDriver, bool> ElementIsInDisplayedConditionAfterRefresh(By locator, bool displayedCondition, bool waitForDataLoading)
+        {
+            return (driver) =>
+            {
+                try
+                {
+                    driver.Navigate().Refresh();
+
+                    if (waitForDataLoading)
+                        WaitForDataLoading((RemoteWebDriver)driver);
+
+                    var elements = driver.FindElements(locator);
+                    //If no elements found
+                    if (!elements.Any())
+                        return false.Equals(displayedCondition);
+                    return elements.Any(x => x.Displayed().Equals(displayedCondition));
+                }
+                catch (NoSuchElementException)
+                {
+                    // Returns false because the element is not present in DOM.
+                    return false.Equals(displayedCondition);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    // Returns false because stale element reference implies that element
+                    // is no longer visible.
+                    return false.Equals(displayedCondition);
+                }
+                catch (InvalidOperationException)
+                {
+                    // Return false as no elements was located
+                    return false.Equals(displayedCondition);
+                }
+            };
+        }
+
+        private static Func<IWebDriver, bool> ElementIsInDisplayedConditionAfterRefresh(IWebElement element, bool displayedCondition, bool waitForDataLoading)
+        {
+            return (driver) =>
+            {
+                try
+                {
+                    driver.Navigate().Refresh();
+
+                    if (waitForDataLoading)
+                        WaitForDataLoading((RemoteWebDriver)driver);
+
                     return element.Displayed().Equals(displayedCondition);
                 }
                 catch (NoSuchElementException)
