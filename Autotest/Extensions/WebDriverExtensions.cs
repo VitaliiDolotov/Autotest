@@ -921,10 +921,7 @@ namespace SfsExtras.Extensions
             {
                 try
                 {
-                    if (waitForDataLoading)
-                        WaitForDataLoading((RemoteWebDriver)driver);
-
-                    WaitForElementToBeDisplayed((RemoteWebDriver)driver, element);
+                    WaitForElementToBeDisplayedAfterRefresh((RemoteWebDriver)driver, element, waitForDataLoading, 5);
 
                     return element.Text.Contains(text).Equals(condition);
                 }
@@ -958,10 +955,7 @@ namespace SfsExtras.Extensions
             {
                 try
                 {
-                    if (waitForDataLoading)
-                        WaitForDataLoading((RemoteWebDriver)driver);
-
-                    WaitForElementToBeDisplayed((RemoteWebDriver)driver, by);
+                    WaitForElementToBeDisplayedAfterRefresh((RemoteWebDriver)driver, by, waitForDataLoading, 5);
 
                     var element = driver.FindElement(by);
                     return element.Text.Contains(text).Equals(condition);
