@@ -867,6 +867,131 @@ namespace SfsExtras.Extensions
 
         #endregion
 
+        #region Wait for text in Element after refresh
+
+        public static void WaitForElementToNotContainsTextAfterRefresh(this RemoteWebDriver driver, IWebElement element, string expectedText, bool waitForDataLoading = false, int waitSec = WaitTimeoutSeconds)
+        {
+            WaitElementContainsTextAfterRefresh(driver, element, expectedText, false, waitSec, waitForDataLoading);
+        }
+
+        public static void WaitForElementToNotContainsTextAfterRefresh(this RemoteWebDriver driver, By selector, string expectedText, bool waitForDataLoading = false, int waitSec = WaitTimeoutSeconds)
+        {
+            WaitElementContainsTextAfterRefresh(driver, selector, expectedText, false, waitSec, waitForDataLoading);
+        }
+
+        public static void WaitForElementToContainsTextAfterRefresh(this RemoteWebDriver driver, IWebElement element, string expectedText, bool waitForDataLoading = false, int waitSec = WaitTimeoutSeconds)
+        {
+            WaitElementContainsTextAfterRefresh(driver, element, expectedText, true, waitSec, waitForDataLoading);
+        }
+
+        public static void WaitForElementToContainsTextAfterRefresh(this RemoteWebDriver driver, By selector, string expectedText, bool waitForDataLoading = false, int waitSec = WaitTimeoutSeconds)
+        {
+            WaitElementContainsTextAfterRefresh(driver, selector, expectedText, true, waitSec, waitForDataLoading);
+        }
+
+        private static void WaitElementContainsTextAfterRefresh(this RemoteWebDriver driver, IWebElement element, string expectedText, bool condition, int waitSec, bool waitForDataLoading)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(waitSec));
+                wait.Until(TextToBeContainsInElementAfterRefresh(element, expectedText, condition, waitForDataLoading));
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Text '{expectedText}' is not appears/disappears in the element after {waitSec} seconds");
+            }
+        }
+
+        private static void WaitElementContainsTextAfterRefresh(this RemoteWebDriver driver, By by, string expectedText, bool condition, int waitSec, bool waitForDataLoading)
+        {
+            try
+            {
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(waitSec));
+                wait.Until(TextToBeContainsInElementAfterRefresh(by, expectedText, condition, waitForDataLoading));
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Text '{expectedText}' is not appears/disappears in the element located by '{by}' selector after {waitSec} seconds");
+            }
+        }
+
+        private static Func<IWebDriver, bool> TextToBeContainsInElementAfterRefresh(IWebElement element, string text, bool condition, bool waitForDataLoading)
+        {
+            return (driver) =>
+            {
+                try
+                {
+                    if (waitForDataLoading)
+                        WaitForDataLoading((RemoteWebDriver)driver);
+
+                    WaitForElementToBeDisplayed((RemoteWebDriver)driver, element);
+
+                    return element.Text.Contains(text).Equals(condition);
+                }
+                catch (TimeoutException)
+                {
+                    // Returns false because the element is not present in DOM.
+                    return false.Equals(condition);
+                }
+                catch (NoSuchElementException)
+                {
+                    // Returns false because the element is not present in DOM.
+                    return false.Equals(condition);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    // Returns false because stale element reference implies that element
+                    // is no longer visible.
+                    return false.Equals(condition);
+                }
+                catch (InvalidOperationException)
+                {
+                    // Return false as no elements was located
+                    return false.Equals(condition);
+                }
+            };
+        }
+
+        private static Func<IWebDriver, bool> TextToBeContainsInElementAfterRefresh(By by, string text, bool condition, bool waitForDataLoading)
+        {
+            return (driver) =>
+            {
+                try
+                {
+                    if (waitForDataLoading)
+                        WaitForDataLoading((RemoteWebDriver)driver);
+
+                    WaitForElementToBeDisplayed((RemoteWebDriver)driver, by);
+
+                    var element = driver.FindElement(by);
+                    return element.Text.Contains(text).Equals(condition);
+                }
+                catch (TimeoutException)
+                {
+                    // Returns false because the element is not present in DOM.
+                    return false.Equals(condition);
+                }
+                catch (NoSuchElementException)
+                {
+                    // Returns false because the element is not present in DOM.
+                    return false.Equals(condition);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    // Returns false because stale element reference implies that element
+                    // is no longer visible.
+                    return false.Equals(condition);
+                }
+                catch (InvalidOperationException)
+                {
+                    // Return false as no elements was located
+                    return false.Equals(condition);
+                }
+            };
+        }
+
+        #endregion
+
         #region Wait for text in Element attribute
 
         public static void WaitForElementToNotContainsTextInAttribute(this RemoteWebDriver driver, IWebElement element, string expectedText, string attribute, int waitSec = WaitTimeoutSeconds)
