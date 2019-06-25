@@ -69,14 +69,11 @@ namespace SfsExtras.Base
             _objectContainer.RegisterInstanceAs<RemoteWebDriver>(driverInstance);
         }
 
-        [AfterScenario()]
-        public void OnTearDown()
+        [AfterScenario(Order = 0)]
+        public void TestResultsAndScreen()
         {
             try
             {
-                List<string> testTags = TestContext.CurrentContext.Test.Properties["Category"].Select(x => x.ToString()).ToList();
-                LockCategory.RemoveTags(testTags);
-
                 RemoteWebDriver driver = null;
 
                 try
@@ -91,12 +88,33 @@ namespace SfsExtras.Base
                             driver.CreateScreenshot(testName);
                     }
 
-                    Logger.Write($"Closing window at: {driver.Url}");
+                    Logger.Write($"Test finished on URL: {driver.Url}");
                 }
                 catch (Exception e)
                 {
                     Logger.Write(e);
                 }
+            }
+            catch (ObjectContainerException e)
+            {
+                //There are no driver in the context
+                Logger.Write($"There are no driver in the context: {e}");
+            }
+            catch (Exception e)
+            {
+                Logger.Write(e);
+            }
+        }
+
+        [AfterScenario(Order = 10000)]
+        public void QuiteDriver()
+        {
+            try
+            {
+                List<string> testTags = TestContext.CurrentContext.Test.Properties["Category"].Select(x => x.ToString()).ToList();
+                LockCategory.RemoveTags(testTags);
+
+                RemoteWebDriver driver = _objectContainer.Resolve<RemoteWebDriver>();
 
                 driver?.QuitDriver();
             }
