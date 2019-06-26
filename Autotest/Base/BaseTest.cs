@@ -36,6 +36,11 @@ namespace SfsExtras.Base
             switch (BrowserProvider.TargetBrowser)
             {
                 case "chrome":
+                    //string executingAssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    //ChromeDriverService service = ChromeDriverService.CreateDefaultService(executingAssemblyFolder);
+                    //service.SuppressInitialDiagnosticInformation = true;
+                    //service.HideCommandPromptWindow = true;
+
                     var options = new ChromeOptions();
                     options.AddArgument("--safebrowsing-disable-download-protection");
                     options.AddUserProfilePreference("download.prompt_for_download", false);
@@ -43,8 +48,7 @@ namespace SfsExtras.Base
                     options.AddUserProfilePreference("safebrowsing.enabled", true);
                     if (BrowserProvider.Resolution.Equals("maximized"))
                         options.AddArgument("--start-maximized");
-                    string executingAssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    return new ChromeDriver(executingAssemblyFolder, options);
+                    return new ChromeDriver(/*service,*/ options);
 
                 case "firefox":
                     return new FirefoxDriver();
@@ -66,7 +70,7 @@ namespace SfsExtras.Base
             {
                 case "chrome":
                     var chromeOptions = new ChromeOptions();
-                    chromeOptions.AddArgument("--safebrowsing-disable-download-protection");
+                    chromeOptions.AddArguments("headless", "--safebrowsing-disable-download-protection");
                     chromeOptions.AddUserProfilePreference("download.prompt_for_download", false);
                     chromeOptions.AddUserProfilePreference("download.directory_upgrade", true);
                     chromeOptions.AddUserProfilePreference("safebrowsing.enabled", true);
