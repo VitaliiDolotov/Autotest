@@ -108,6 +108,50 @@ namespace SfsExtras.Extensions
 
         #endregion
 
+        #region Sendkeys
+
+        public static void SendString(this IWebElement textbox, string text)
+        {
+            if (!string.IsNullOrEmpty(text))
+                textbox.SendKeys(text);
+        }
+
+        public static void ClearSendKeys(this IWebElement textbox, string text)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                textbox.Clear();
+                textbox.SendKeys(text);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textbox"></param>
+        /// <param name="text"></param>
+        /// <param name="clear"></param>
+        /// <param name="backspace">Textbox will be cleared with backspace in case it will be set for positive number</param>
+        public static void SendKeysWithDelay(this IWebElement textbox, string text, bool clear = false, int backspace = 0)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+
+            if (clear)
+                if (backspace > 0)
+                    for (int i = 0; i < backspace; i++)
+                        textbox.SendKeys(OpenQA.Selenium.Keys.Backspace);
+                else
+                    textbox.Clear();
+
+            foreach (char c in text)
+            {
+                textbox.SendKeys(c.ToString());
+                Thread.Sleep(100);
+            }
+        }
+
+        #endregion
+
         public static bool IsAttributePresent(this IWebElement element, string attribute)
         {
             try
