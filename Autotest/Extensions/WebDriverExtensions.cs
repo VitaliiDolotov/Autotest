@@ -595,11 +595,7 @@ namespace SfsExtras.Extensions
                     if (waitForDataLoading)
                         WaitForDataLoading((RemoteWebDriver)driver);
 
-                    var elements = driver.FindElements(locator);
-                    //If no elements found
-                    if (!elements.Any())
-                        return false.Equals(displayedCondition);
-                    return elements.Any(x => x.Displayed().Equals(displayedCondition));
+                    return IsElementDisplayed((RemoteWebDriver)driver, locator, WaitTime.Short).Equals(displayedCondition);
                 }
                 catch (NoSuchElementException)
                 {
@@ -631,7 +627,7 @@ namespace SfsExtras.Extensions
                     if (waitForDataLoading)
                         WaitForDataLoading((RemoteWebDriver)driver);
 
-                    return element.Displayed().Equals(displayedCondition);
+                    return IsElementDisplayed((RemoteWebDriver)driver, element, WaitTime.Short).Equals(displayedCondition);
                 }
                 catch (NoSuchElementException)
                 {
