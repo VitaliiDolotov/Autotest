@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -47,6 +49,36 @@ namespace SfsExtras.Base
         {
             var attribute = Extensions.ReflectionExtensions.ResolveMember(expression).GetFirstDecoration<FindsByAttribute>();
             return Utils.ByFactory.From(attribute);
+        }
+
+        //Usage By selector = page.Click(() => page.LoginButton);
+        public void Click<TProperty>(Expression<Func<TProperty>> expression)
+        {
+            var by = GetByFor(expression);
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    Driver.FindElement(by).Click();
+                    return;
+                }
+                catch (NoSuchElementException)
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (NullReferenceException)
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (TargetInvocationException)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
         }
     }
 }

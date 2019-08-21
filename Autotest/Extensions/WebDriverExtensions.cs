@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.PageObjects;
 using SfsExtras.Base;
 using SfsExtras.Utils;
 
@@ -18,6 +20,16 @@ namespace SfsExtras.Extensions
         private static readonly TimeSpan WaitTimeout = TimeSpan.FromSeconds(WaitTimeoutSeconds);
         private static readonly TimeSpan PollingInterval = TimeSpan.FromSeconds(5);
         private const int NumberOfTimesToWait = 2;
+
+        public static By GetByFor<T>(string element)
+        {
+            var propertyName = element;
+            var type = typeof(T);
+            var property = type.GetProperty(propertyName);
+            var findsByAttributes =
+                property.GetCustomAttributes(typeof(FindsByAttribute), false).Single() as FindsByAttribute;
+            return ByFactory.From(findsByAttributes);
+        }
 
         public static T NowAt<T>(this RemoteWebDriver driver) where T : SeleniumBasePage, new()
         {
@@ -1542,6 +1554,35 @@ namespace SfsExtras.Extensions
         {
             driver.ExecuteScript($"window.open('{url}','_blank');");
             driver.SwitchTo().Window(driver.WindowHandles.Last());
+        }
+
+        //For cases with _driver.FindBy
+        public static void ExecuteAction(this RemoteWebDriver driver, Action actionToDo)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    actionToDo.Invoke();
+                    return;
+                }
+                catch (NoSuchElementException)
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (StaleElementReferenceException)
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (NullReferenceException)
+                {
+                    Thread.Sleep(1000);
+                }
+                catch (TargetInvocationException)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
         }
     }
 }
