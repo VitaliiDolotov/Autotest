@@ -53,7 +53,7 @@ namespace SfsExtras.Base
                 case "firefox":
                     return new FirefoxDriver();
 
-                case "internet explorer":
+                case "ie":
                     return new InternetExplorerDriver();
 
                 case "edge":
@@ -80,7 +80,7 @@ namespace SfsExtras.Base
                     var firefoxOptions = new FirefoxOptions();
                     return new RemoteWebDriver(new Uri(BrowserProvider.HubUri), firefoxOptions);
 
-                case "internet explorer":
+                case "ie":
                     var ieOptions = new InternetExplorerOptions();
                     return new RemoteWebDriver(new Uri(BrowserProvider.HubUri), ieOptions);
 

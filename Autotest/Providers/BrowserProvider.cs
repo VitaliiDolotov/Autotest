@@ -5,7 +5,7 @@ namespace Autotest.Providers
     public static class BrowserProvider
     {
         /// <summary>
-        /// Stored in the 'browser.target_browser' property. Possible values: chrome, firefox, internetExplorer, edge
+        /// Stored in the 'browser.target_browser' property. Possible values: chrome, firefox, ie, edge
         /// </summary>
         public static string TargetBrowser => ConfigurationReader.AppSettings("browser.target_browser");
         /// <summary>
