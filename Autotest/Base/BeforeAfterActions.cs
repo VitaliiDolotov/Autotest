@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using AutomationUtils.Utils;
 using Autotest.Extensions;
 using Autotest.Providers;
 using Autotest.Utils;

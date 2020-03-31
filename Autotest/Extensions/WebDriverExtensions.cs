@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using AutomationUtils.Extensions;
+using AutomationUtils.Utils;
 using Autotest.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;

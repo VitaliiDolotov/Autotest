@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using AutomationUtils.Utils;
 
 namespace Autotest.Utils
 {

@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Autotest.Extensions;
-using Autotest.Utils;
+using AutomationUtils.Extensions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using SeleniumExtras.PageObjects;
+using AutomationUtils.Utils;
 
 namespace SfsExtras.Base
 {

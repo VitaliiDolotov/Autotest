@@ -47,7 +47,13 @@ namespace SfsExtras.Base
                     options.AddUserProfilePreference("download.directory_upgrade", true);
                     options.AddUserProfilePreference("safebrowsing.enabled", true);
                     if (BrowserProvider.Resolution.Equals("maximized"))
+                    {
                         options.AddArgument("--start-maximized");
+                    }
+                    if (BrowserProvider.BrowserType.Equals("local"))
+                    {
+                        options.AddArgument("--start-maximized");
+                    }
                     return new ChromeDriver(/*service,*/ options);
 
                 case "firefox":
