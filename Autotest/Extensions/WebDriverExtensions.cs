@@ -4,15 +4,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Autotest.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SfsExtras.Base;
-using SfsExtras.Utils;
 
-namespace SfsExtras.Extensions
+namespace Autotest.Extensions
 {
     public static class WebDriverExtensions
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace SfsExtras.Extensions
+namespace Autotest.Extensions
 {
     public static class ReflectionExtensions
     {

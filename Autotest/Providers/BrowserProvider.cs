@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SfsExtras.Utils;
+﻿using Autotest.Utils;
 
-namespace SfsExtras.Providers
+namespace Autotest.Providers
 {
     public static class BrowserProvider
     {

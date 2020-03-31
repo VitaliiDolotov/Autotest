@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autotest.Extensions;
 using OpenQA.Selenium.Remote;
 using SfsExtras.Base;
-using SfsExtras.Extensions;
 using TechTalk.SpecFlow;
 
 namespace Autotest.Steps.InitialSteps

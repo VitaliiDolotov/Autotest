@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Autotest.Extensions;
+using Autotest.Providers;
+using Autotest.Utils;
 using BoDi;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
-using SfsExtras.Extensions;
-using SfsExtras.Providers;
-using SfsExtras.Utils;
 using TechTalk.SpecFlow;
 
 namespace SfsExtras.Base

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autotest.Extensions;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
-using SfsExtras.Extensions;
 using TechTalk.SpecFlow;
 
 namespace Autotest.Steps.InitialSteps

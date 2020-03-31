@@ -3,7 +3,7 @@ using System.Globalization;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 
-namespace SfsExtras.Utils
+namespace Autotest.Utils
 {
     // Copy-paste from Selenium internal
     public class ByFactory

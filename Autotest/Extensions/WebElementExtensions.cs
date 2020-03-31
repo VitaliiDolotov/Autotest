@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Autotest.Utils;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
-using SfsExtras.Base;
-using SfsExtras.Utils;
 
-namespace SfsExtras.Extensions
+namespace Autotest.Extensions
 {
     public static class WebElementExtensions
     {

@@ -6,11 +6,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Autotest.Extensions;
+using Autotest.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using SeleniumExtras.PageObjects;
-using SfsExtras.Extensions;
 
 namespace SfsExtras.Base
 {
@@ -33,22 +34,22 @@ namespace SfsExtras.Base
                 .Where(a =>
                     ((object)a) != null
                     && a != null)
-                .Select(Utils.ByFactory.From)
+                .Select(ByFactory.From)
                 .ToList();
         }
 
         //TODO probably should be replaced by 'GetByFor' method
         protected By SelectorFor<TPage, TProperty>(TPage page, Expression<Func<TPage, TProperty>> expression)
         {
-            var attribute = Extensions.ReflectionExtensions.ResolveMember(page, expression).GetFirstDecoration<FindsByAttribute>();
-            return Utils.ByFactory.From(attribute);
+            var attribute = ReflectionExtensions.ResolveMember(page, expression).GetFirstDecoration<FindsByAttribute>();
+            return ByFactory.From(attribute);
         }
 
         //Usage By selector = page.GetByFor(() => page.LoginButton);
         public By GetByFor<TProperty>(Expression<Func<TProperty>> expression)
         {
-            var attribute = Extensions.ReflectionExtensions.ResolveMember(expression).GetFirstDecoration<FindsByAttribute>();
-            return Utils.ByFactory.From(attribute);
+            var attribute = ReflectionExtensions.ResolveMember(expression).GetFirstDecoration<FindsByAttribute>();
+            return ByFactory.From(attribute);
         }
 
         //Usage By selector = page.Click(() => page.LoginButton);
