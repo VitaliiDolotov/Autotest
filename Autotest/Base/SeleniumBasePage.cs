@@ -5,13 +5,13 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using AutomationUtils.Extensions;
+using AutomationUtils.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using SeleniumExtras.PageObjects;
-using AutomationUtils.Utils;
 
-namespace SfsExtras.Base
+namespace Autotest.Base
 {
     public abstract class SeleniumBasePage
     {
