@@ -122,7 +122,6 @@
     <Compile Include="Base\SeleniumBasePage.cs" />
     <Compile Include="Base\SpecFlowContextWithDriver.cs" />
     <Compile Include="Extensions\TableExtensions.cs" />
-    <Compile Include="Extensions\WebDriverExtensions.cs" />
     <Compile Include="Pages\ResultsPage.cs" />
     <Compile Include="Pages\SearchPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
