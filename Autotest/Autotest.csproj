@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutomationUtils" Version="1.1.28" />
+    <PackageReference Include="AutomationUtils" Version="1.1.29" />
     <PackageReference Include="BoDi" Version="1.5.0" />
     <PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="4.0.0-alpha05" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.30" />
