@@ -1,4 +1,7 @@
-
+#Ignore SpecFlow feature.cs files
+*.feature.cs
+#Approval files skip
+*.received.json
 #Ignore thumbnails created by Windows
 Thumbs.db
 #Ignore files built by Visual Studio
@@ -27,8 +30,6 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 .vs/
-#Nuget packages folder
-packages/
 /build/
 *.opensdf
 *.tlog
@@ -37,3 +38,5 @@ TestResult.xml
 Version.cs
 Version.h
 Version.cpp
+/failed dashboard tests.playlist
+/playlist.playlist
