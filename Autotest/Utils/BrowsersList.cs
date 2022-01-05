@@ -22,10 +22,10 @@ namespace Autotest.Utils
             return DriverInUse;
         }
 
-        //id starts from 0 where zero is the main browser
+        // id starts from 0 where zero is the main browser
         public RemoteWebDriver GetBrowser(int id)
         {
-            //Drop current driver
+            // Drop current driver
             DriverInUse = null;
 
             if (id > _drivers.Count - 1)
@@ -33,10 +33,10 @@ namespace Autotest.Utils
                 throw new Exception($"Unable to get driver with {id} id");
             }
 
-            //Set new current driver
+            // Set new current driver
             DriverInUse = _drivers[id];
 
-            //Start ping thread if not yet started
+            // Start ping thread if not yet started
             if (_pingDriversThread == null)
             {
                 _pingDriversThread = new Thread(PingDrivers);
@@ -49,7 +49,7 @@ namespace Autotest.Utils
         {
             _drivers.Add(driver);
 
-            //First browser that was added will be main in focus
+            // First browser that was added will be main in focus
             if (_drivers.Count == 1)
             {
                 DriverInUse = driver;
@@ -58,7 +58,7 @@ namespace Autotest.Utils
 
         public List<RemoteWebDriver> GetAllBrowsers()
         {
-            //Stop ping
+            // Stop ping
             _pingDriversThread?.Abort();
             return _drivers;
         }

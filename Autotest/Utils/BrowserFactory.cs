@@ -20,14 +20,14 @@ namespace Autotest.Utils
             {
                 return CreateDriverInstance();
             }
-            //Just retry when node was busy
+            // Just retry when node was busy
             catch (AggregateException)
             {
                 Logger.Write("AggregateException: Browser was not created. Retry to create browser", Logger.LogLevel.Warning);
                 return CreateDriverInstance();
             }
-            //Retry for below error
-            //A exception with a null response was thrown sending an HTTP request to the remote WebDriver server for URL http://autohub.corp.juriba.com:4444/wd/hub/session. The status of the exception was UnknownError, and the message was: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+            // Retry for below error
+            // A exception with a null response was thrown sending an HTTP request to the remote WebDriver server for URL http://autohub.corp.juriba.com:4444/wd/hub/session. The status of the exception was UnknownError, and the message was: Only one usage of each socket address (protocol/network address/port) is normally permitted.
             catch (WebDriverException e)
             {
                 Logger.Write($"WebDriverException: Browser was not created. Retry to create browser: {e}", Logger.LogLevel.Warning);
@@ -37,16 +37,12 @@ namespace Autotest.Utils
 
         private static RemoteWebDriver CreateDriverInstance()
         {
-            switch (Browser.RemoteDriver)
+            return Browser.RemoteDriver switch
             {
-                case "local":
-                    return CreateLocalDriver();
-                case "remote":
-                    return CreateRemoteDriver();
-
-                default:
-                    throw new Exception($"Browser type '{Browser.Type}' was not identified");
-            }
+                "local" => CreateLocalDriver(),
+                "remote" => CreateRemoteDriver(),
+                _ => throw new Exception($"Browser type '{Browser.Type}' was not identified"),
+            };
         }
 
         private static RemoteWebDriver CreateLocalDriver()
@@ -65,7 +61,7 @@ namespace Autotest.Utils
                     {
                         chromeOptions.AddArgument("--start-maximized");
                     }
-                    //options.UseSpecCompliantProtocol = false;
+                    // options.UseSpecCompliantProtocol = false;
                     chromeOptions.SetLoggingPreference(LogType.Browser, LogLevel.All);
 
                     var driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), chromeOptions);
@@ -107,9 +103,9 @@ namespace Autotest.Utils
                     chromeOptions.AddUserProfilePreference("download.directory_upgrade", true);
                     chromeOptions.AddUserProfilePreference("safebrowsing.enabled", false);
 
-                    //chromeOptions.UseSpecCompliantProtocol = false;
+                    // chromeOptions.UseSpecCompliantProtocol = false;
                     chromeOptions.SetLoggingPreference(LogType.Browser, LogLevel.All);
-                    //typeof(CapabilityType).GetField(nameof(CapabilityType.LoggingPreferences), BindingFlags.Static | BindingFlags.Public).SetValue(null, "goog:loggingPrefs");
+                    // typeof(CapabilityType).GetField(nameof(CapabilityType.LoggingPreferences), BindingFlags.Static | BindingFlags.Public).SetValue(null, "goog:loggingPrefs");
                     return new RemoteWebDriver(new Uri(Browser.HubUri), chromeOptions);
 
                 case "firefox":
