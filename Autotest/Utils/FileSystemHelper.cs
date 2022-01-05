@@ -48,7 +48,7 @@ namespace Autotest.Utils
 
         public static IList<T> ReadJsonListFromSystem<T>(string pathToJson)
         {
-            var fullPath = FileSystemHelper.GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
+            var fullPath = GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
             var reader = new StreamReader(fullPath);
             var myJson = reader.ReadToEnd();
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<T>>(myJson);
@@ -56,7 +56,7 @@ namespace Autotest.Utils
 
         public static object ReadJsonFromSystem<T>(string pathToJson)
         {
-            var fullPath = FileSystemHelper.GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
+            var fullPath = GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
             var reader = new StreamReader(fullPath);
             var myJson = reader.ReadToEnd();
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(myJson);

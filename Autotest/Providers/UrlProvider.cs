@@ -1,11 +1,12 @@
 ﻿using System;
+using AutomationUtils.Extensions;
 using AutomationUtils.Utils;
 
 namespace Autotest.Providers
 {
     public class UrlProvider
     {
-        public static string RestClientBaseUrl => ConfigReader.ByKey("appUrlDev");
+        public static string RestClientBaseUrl => Config.Read.ByKey("appUrlDev");
 
         public static string BaseUrl
         {
@@ -13,7 +14,7 @@ namespace Autotest.Providers
             {
                 return EnvironmentProvider.Env switch
                 {
-                    "dev" => ConfigReader.ByKey("appUrlDev"),
+                    "dev" => Config.Read.ByKey("appUrlDev"),
                     _ => throw new Exception($"Unable to generate Base URL for '{EnvironmentProvider.Env}' environment")
                 };
             }
