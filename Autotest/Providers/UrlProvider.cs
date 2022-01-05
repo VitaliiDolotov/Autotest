@@ -11,17 +11,11 @@ namespace Autotest.Providers
         {
             get
             {
-                switch (EnvironmentProvider.Env)
+                return EnvironmentProvider.Env switch
                 {
-                    case "dev":
-                        {
-                            return ConfigReader.ByKey("appUrlDev");
-                        }
-                    default:
-                        {
-                            throw new Exception($"Unable to generate Base URL for '{EnvironmentProvider.Env}' environment");
-                        }
-                }
+                    "dev" => ConfigReader.ByKey("appUrlDev"),
+                    _ => throw new Exception($"Unable to generate Base URL for '{EnvironmentProvider.Env}' environment")
+                };
             }
         }
     }

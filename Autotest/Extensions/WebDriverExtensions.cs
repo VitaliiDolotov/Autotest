@@ -15,13 +15,13 @@ namespace Autotest.Extensions
             try
             {
                 FileSystemHelper.EnsureFolderExists(PathProvider.ScreenshotsFolder);
-                var formatedFileName =
+                var formattedFileName =
                     fileName.Replace("\\", string.Empty).Replace("/", string.Empty).Replace("\"", "'");
-                var filePath = FileSystemHelper.GetPathForScreenshot(formatedFileName);
+                var filePath = FileSystemHelper.GetPathForScreenshot(formattedFileName);
                 var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
 
                 screenshot.SaveAsFile(filePath, ScreenshotImageFormat.Png);
-                Logger.Write($"Check screenshot by folklowing path: {filePath}");
+                Logger.Write($"Check screenshot by following path: {filePath}");
                 return filePath;
             }
             catch (Exception e)
