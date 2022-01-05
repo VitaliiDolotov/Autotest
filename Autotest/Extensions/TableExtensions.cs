@@ -15,7 +15,7 @@ namespace Autotest.Extensions
         public static List<string[]> GetContent(this Table table)
         {
             var result = new List<string[]>();
-            foreach (TableRow row in table.Rows)
+            foreach (var row in table.Rows)
             {
                 var line = new List<string>();
                 foreach (KeyValuePair<string, string> pair in row)
@@ -29,15 +29,14 @@ namespace Autotest.Extensions
 
         public static List<string> GetDataByKey(this Table table, string key)
         {
-            List<string> result = new List<string>();
-            foreach (TableRow row in table.Rows)
+            var result = new List<string>();
+            foreach (var row in table.Rows)
             {
                 foreach (KeyValuePair<string, string> pair in row)
                 {
                     if (pair.Key.Equals(key))
                     {
                         result.Add(pair.Value);
-                        continue;
                     }
                 }
             }

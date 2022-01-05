@@ -1,10 +1,11 @@
-﻿using AutomationUtils.Utils;
+﻿using AutomationUtils.Extensions;
+using AutomationUtils.Utils;
 
 namespace Autotest.Providers
 {
     public class PathProvider
     {
-        public static string ScreenshotsFolder => ConfigReader.ByKey("screenshotsFolder");
-        public static string DownloadsFolder => ConfigReader.ByKey("downloadsFolder");
+        public static string ScreenshotsFolder => Config.Read.ByKey("screenshotsFolder");
+        public static string DownloadsFolder => Config.Read.ByKey("downloadsFolder");
     }
 }

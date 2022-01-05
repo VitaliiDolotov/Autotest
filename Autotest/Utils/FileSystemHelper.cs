@@ -38,7 +38,7 @@ namespace Autotest.Utils
                 throw new Exception("Path not set");
             }
 
-            string executingAssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var executingAssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var pathParts = new List<string>() { executingAssemblyFolder, dataFolder.GetValue() };
             pathParts.AddRange(pathPart.Split('\\'));
             var fullPath = Path.Combine(pathParts.ToArray());
@@ -48,17 +48,17 @@ namespace Autotest.Utils
 
         public static IList<T> ReadJsonListFromSystem<T>(string pathToJson)
         {
-            var fullPath = FileSystemHelper.GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
+            var fullPath = GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
             var reader = new StreamReader(fullPath);
-            string myJson = reader.ReadToEnd();
+            var myJson = reader.ReadToEnd();
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<T>>(myJson);
         }
 
         public static object ReadJsonFromSystem<T>(string pathToJson)
         {
-            var fullPath = FileSystemHelper.GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
+            var fullPath = GeneratePathToEmbeddedResource(pathToJson, DataFolder.TestData);
             var reader = new StreamReader(fullPath);
-            string myJson = reader.ReadToEnd();
+            var myJson = reader.ReadToEnd();
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(myJson);
         }
     }

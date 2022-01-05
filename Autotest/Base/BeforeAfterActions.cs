@@ -41,10 +41,10 @@ namespace Autotest.Base
 
                 Logger.Write($"TEST STARTED: {_testInfo.Name}", Logger.LogLevel.Info);
 
-                //LockCategory.AwaitTags(_testInfo.Tags);
-                //LockCategory.AddTags(_testInfo.Name, _testInfo.Tags);
+                // LockCategory.AwaitTags(_testInfo.Tags);
+                // LockCategory.AddTags(_testInfo.Name, _testInfo.Tags);
 
-                //Create browser if not API test
+                // Create browser if not API test
                 if (!_testInfo.Tags.Contains("API"))
                 {
                     var driverInstance = CreateBrowserDriver();
@@ -118,29 +118,27 @@ namespace Autotest.Base
         {
             try
             {
-                if (!_testInfo.Tags.Contains("API"))
+                if (_testInfo.Tags.Contains("API")) return;
+                try
                 {
-                    try
+                    foreach (RemoteWebDriver browser in _browsersList.GetAllBrowsers())
                     {
-                        foreach (RemoteWebDriver browser in _browsersList.GetAllBrowsers())
+                        try
                         {
-                            try
-                            {
-                                browser?.QuitDriver();
-                            }
-                            catch (Exception e)
-                            {
-                                Logger.Write($"Unable to close driver: {e}", Logger.LogLevel.Warning);
-                            }
+                            browser?.QuitDriver();
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Write($"Unable to close driver: {e}", Logger.LogLevel.Warning);
                         }
                     }
-                    catch (Exception e)
-                    {
-                        Logger.Write($"UNABLE to get driver from context. It was closed before or doesn't exist: {e}", Logger.LogLevel.Warning);
-                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Write($"UNABLE to get driver from context. It was closed before or doesn't exist: {e}", Logger.LogLevel.Warning);
                 }
 
-                //LockCategory.RemoveTestTags(_testInfo.Name);
+                // LockCategory.RemoveTestTags(_testInfo.Name);
             }
             catch (Exception e)
             {
@@ -162,14 +160,7 @@ namespace Autotest.Base
             {
                 return TestStatus.Failed;
             }
-            if (_scenarioContext.TestError == null)
-            {
-                return TestStatus.Passed;
-            }
-            else
-            {
-                return TestStatus.Failed;
-            }
+            return _scenarioContext.TestError == null ? TestStatus.Passed : TestStatus.Failed;
         }
 
         private string GetTestException()
@@ -206,7 +197,7 @@ namespace Autotest.Base
             {
                 List<string> testTags = TestContext.CurrentContext.Test.Properties["Category"].Select(x => x.ToString()).ToList();
 
-                //If we are not able to get nUnit tags the try to get them from SpecFlow
+                // If we are not able to get nUnit tags the try to get them from SpecFlow
                 if (!testTags.Any())
                 {
                     testTags = _scenarioContext.ScenarioInfo.Tags.ToList();
